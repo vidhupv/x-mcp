@@ -1,9 +1,20 @@
 # X(Twitter) MCP server
 
+[![smithery badge](https://smithery.ai/badge/x-mcp)](https://smithery.ai/server/x-mcp)
+
 An MCP server to create, manage and publish X/Twitter posts directly through Claude chat.
 
 ## Quick Setup
 
+### Installing via Smithery
+
+To install X(Twitter) MCP Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/x-mcp):
+
+```bash
+npx -y @smithery/cli install x-mcp --client claude
+```
+
+### Manual Installation
 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/x-mcp.git
