@@ -21,7 +21,7 @@ npx -y @smithery/cli install x-mcp --client claude
 ### Manual Installation
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/x-mcp.git
+git clone https://github.com/vidhupv/x-mcp.git
 ```
 
 2. Install UV globally using Homebrew in Terminal:
@@ -40,9 +40,9 @@ brew install uv
     "x_mcp": {
       "command": "uv",
       "args": [
-        "--directory",
-        "/path/to/x-mcp",
         "run",
+        "--project",
+        "/path/to/x-mcp",
         "x-mcp"
       ],
       "env": {
@@ -57,7 +57,7 @@ brew install uv
 ```
 
 5. Get your X/Twitter API credentials:
-   - Go to [X API Developer Portal](https://developer.x.com/en/products/x-api)
+   - Go to [X API docs](https://docs.x.com/x-api)
    - Create a project
    - In User Authentication Settings: Set up with Read and Write permissions, Web App type
    - Set Callback URL to `http://localhost/` and Website URL to `http://example.com/`
@@ -68,6 +68,41 @@ brew install uv
    - Add your X/Twitter API credentials
 
 7. Quit Claude completely and reopen it
+
+If your client reports `unexpected argument '--directory'`, keep the `uv run`
+command above. Older uv builds can reject `--directory` as a global argument,
+while `uv run --project /path/to/x-mcp x-mcp` points uv at this project without
+depending on that flag.
+
+### OpenClaw MCP Setup
+
+OpenClaw can save this server as a third-party MCP definition and keep the
+working directory separate from uv arguments:
+
+```bash
+openclaw mcp add x-mcp \
+  --command uv \
+  --arg run \
+  --arg x-mcp \
+  --cwd /path/to/x-mcp \
+  --env TWITTER_API_KEY=your_api_key \
+  --env TWITTER_API_SECRET=your_api_secret \
+  --env TWITTER_ACCESS_TOKEN=your_access_token \
+  --env TWITTER_ACCESS_TOKEN_SECRET=your_access_token_secret
+
+openclaw mcp status --verbose
+openclaw mcp probe x-mcp --json
+```
+
+This MCP server stays focused on direct X/Twitter draft and publish workflows
+with your own X API credentials. OpenClaw users who also need approval-gated
+TweetClaw workflows for scraping tweets, searching tweet replies, follower
+export, user lookup, direct messages, monitors, webhooks, giveaway draws, or
+reviewed post/reply actions can install TweetClaw as a separate plugin:
+
+```bash
+openclaw plugins install npm:@xquik/tweetclaw@1.6.31
+```
 
 ## Usage Examples
 
@@ -82,5 +117,7 @@ brew install uv
 If not working:
 - Make sure UV is installed globally (if not, uninstall with `pip uninstall uv` and reinstall with `brew install uv`)
 - Or find UV path with `which uv` and replace `"command": "uv"` with the full path
+- If `uv --directory` fails, use the `uv run --project /path/to/x-mcp x-mcp`
+  form shown above or update uv
 - Verify all X/Twitter credentials are correct
 - Check if the x-mcp path in config matches your actual repository location
