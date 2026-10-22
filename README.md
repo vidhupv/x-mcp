@@ -1,6 +1,6 @@
 # X(Twitter) MCP server
 
-[![smithery badge](https://smithery.ai/badge/x-mcp)](https://smithery.ai/server/x-mcp)
+[![LightNow capabilities](https://lightnow.ai/badge/io.github.vidhupv/x-mcp)](https://lightnow.ai/servers/io.github.vidhupv/x-mcp)
 
 An MCP server to create, manage and publish X/Twitter posts directly through Claude chat.
 
